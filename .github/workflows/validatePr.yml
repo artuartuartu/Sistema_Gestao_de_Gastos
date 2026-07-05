@@ -1,0 +1,19 @@
+name: Validate Pull Request Source
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-source:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check source branch
+        run: |
+
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "::error::Pull Requests para a branch 'main' so podem ser feitos a partir da branch 'develop'."
+            exit 1
+          fi
