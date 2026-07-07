@@ -1,0 +1,6 @@
+@Sistema_Gestao_de_Gastos.Web_HostAddress = http://localhost:5186
+
+GET {{Sistema_Gestao_de_Gastos.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
