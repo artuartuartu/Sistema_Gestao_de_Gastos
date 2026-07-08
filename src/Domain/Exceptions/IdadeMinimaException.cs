@@ -1,4 +1,4 @@
-namespace Sistema_Gestao_de_Gastos.Domain.Exception
+namespace Sistema_Gestao_de_Gastos.Domain.Exceptions;
 
 public class IdadeMinimaException : Exception
 {

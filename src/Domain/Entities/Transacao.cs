@@ -1,4 +1,5 @@
-using Sistema_Gestao_de_Gastos.Domain.Enums.TipoTransacao;
+using Sistema_Gestao_de_Gastos.Domain.Enums;
+using Sistema_Gestao_de_Gastos.Domain.Exceptions;
 
 namespace Sistema_Gestao_de_Gastos.Domain.Entities;
 
@@ -10,9 +11,12 @@ public class Transacao
     public TipoTransacao Tipo {get; private set;}
     public Guid PessoaId {get; private set;}
 
-    private Transacao() {}
+    private Transacao()
+    {
+        Descricao = null!;
+    }
 
-    public transacao(string descricao, decimal valor, TipoTransacao tipo, Pessoa pessoa)
+    public Transacao(string descricao, decimal valor, TipoTransacao tipo, Pessoa pessoa)
     {
         if (string.IsNullOrWhiteSpace(descricao))
             throw new RegraDeNegocioException("A descricao e obrigatoria e nao pode ser vazia.");

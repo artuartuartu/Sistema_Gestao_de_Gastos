@@ -1,3 +1,5 @@
+using Sistema_Gestao_de_Gastos.Domain.Exceptions;
+
 namespace Sistema_Gestao_de_Gastos.Domain.Entities;
 
 public class Pessoa 
@@ -5,7 +7,10 @@ public class Pessoa
     public Guid Id {get; private set;}
     public string Nome {get; private set;}
     public int Idade {get; private set;}
-    private Pessoa() {}
+    private Pessoa()
+    {
+        Nome = null!;
+    }
 
     public Pessoa(string nome, int idade)
     {
@@ -13,7 +18,7 @@ public class Pessoa
             throw new RegraDeNegocioException("O nome e obrigatorio e nao pode ser vazio.");
 
         if (idade < 0)
-            throw new RegraDeNegocioException("A idade nao pode ser um valor negativo")
+            throw new RegraDeNegocioException("A idade nao pode ser um valor negativo");
 
         Id = Guid.NewGuid();
         Nome = nome.Trim();
