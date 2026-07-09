@@ -10,10 +10,12 @@ public class Transacao
     public decimal Valor {get; private set;}
     public TipoTransacao Tipo {get; private set;}
     public Guid PessoaId {get; private set;}
+    public Pessoa Pessoa {get; private set;}
 
     private Transacao()
     {
         Descricao = null!;
+        Pessoa = null!;
     }
 
     public Transacao(string descricao, decimal valor, TipoTransacao tipo, Pessoa pessoa)
@@ -35,5 +37,6 @@ public class Transacao
         Valor = valor;
         Tipo = tipo;
         PessoaId = pessoa.Id;
+        Pessoa = pessoa;
     }
 }
