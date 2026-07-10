@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5234/api';
+const API_URL = 'http://localhost:5000/api';
 
 async function tratarResposta(res: Response) {
     if (res.ok) {
