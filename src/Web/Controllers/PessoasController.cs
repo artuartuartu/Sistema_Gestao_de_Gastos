@@ -54,8 +54,6 @@ namespace Sistema_Gestao_de_Gastos.Web.Controllers
             }
         }
 
-        public record CriarPessoaRequest(string Nome, int Idade);
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePessoa(Guid id)
         {
