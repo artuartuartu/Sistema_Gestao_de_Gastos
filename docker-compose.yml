@@ -1,0 +1,23 @@
+services:
+  backend:
+    image: sistema-gastos-backend
+    build:
+      context: .
+      dockerfile: src/Web/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - banco_data:/app/data
+
+  frontend:
+    image: sistema-gastos-frontend
+    build:
+      context: ./src/Web/ClientApp
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  banco_data:

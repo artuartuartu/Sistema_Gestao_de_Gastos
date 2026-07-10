@@ -1,4 +1,6 @@
 using Sistema_Gestao_de_Gastos.Infrastructure;
+using Sistema_Gestao_de_Gastos.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,20 +23,29 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseCors("DevCors");
+app.UseAuthorization();
+app.MapControllers();
+
+var rodandoNoDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
+if (app.Environment.IsDevelopment() || rodandoNoDocker)
 {
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors("DevCors");
-app.UseAuthorization();
-app.MapControllers();
-
-if (!app.Environment.IsDevelopment())
+if (!rodandoNoDocker)
 {
-    app.UseHttpsRedirection();
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+    }
+}
+else
+{
     app.UseStaticFiles();
 }
 
@@ -46,9 +57,18 @@ app.MapGet("/", context =>
     }
     else
     {
-        context.Response.Redirect("/index.html");
+        context.Response.Redirect(rodandoNoDocker ? "/api/pessoas" : "/index.html");
     }
     return Task.CompletedTask;
 });
+
+if (rodandoNoDocker)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<GastoContext>();
+        context.Database.Migrate();
+    }
+}
 
 app.Run();
