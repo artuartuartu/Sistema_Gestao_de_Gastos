@@ -24,21 +24,31 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseCors("DevCors");
 app.UseAuthorization();
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
 }
+
+app.MapGet("/", context =>
+{
+    if (app.Environment.IsDevelopment())
+    {
+        context.Response.Redirect("/swagger");
+    }
+    else
+    {
+        context.Response.Redirect("/index.html");
+    }
+    return Task.CompletedTask;
+});
 
 app.Run();
